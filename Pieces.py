@@ -5,6 +5,7 @@ class Piece:
     def __init__(self, squareColour):
         self.name = ""
         self.squareColour = squareColour
+        self.possibleMoves = []
 
 
 class Rook(Piece):
@@ -14,6 +15,9 @@ class Rook(Piece):
         self.location = location
         self.colour = colour
 
+    def genPossibleMove(self):
+        self.possibleMoves += ((self.location),)
+
 
 class Knight(Piece):
     def __init__(self, location, colour, squareColour):
@@ -22,6 +26,9 @@ class Knight(Piece):
         self.location = location
         self.colour = colour
 
+    def genPossibleMove(self):
+        self.possibleMoves += ((self.location),)
+
 
 class Bishop(Piece):
     def __init__(self, location, colour, squareColour):
@@ -29,6 +36,10 @@ class Bishop(Piece):
         self.name = "Bishop"
         self.location = location
         self.colour = colour
+        self.selected = False
+
+    def genPossibleMove(self):
+        self.possibleMoves += ((self.location),)
 
 
 class Queen(Piece):
@@ -37,6 +48,9 @@ class Queen(Piece):
         self.name = "Queen"
         self.location = location
         self.colour = colour
+
+    def genPossibleMove(self):
+        self.possibleMoves += ((self.location),)
 
 
 class King(Piece):
@@ -47,6 +61,9 @@ class King(Piece):
         self.colour = colour
         self.isChecked = False
 
+    def genPossibleMove(self):
+        self.possibleMoves += ((self.location),)
+
 
 class Pawn(Piece):
     def __init__(self, location, colour, squareColour):
@@ -55,6 +72,9 @@ class Pawn(Piece):
         self.location = location
         self.colour = colour
         self.AllowDoubleMove = True
+
+    def genPossibleMove(self):
+        self.possibleMoves += ((self.location),)
 
 
 # def main():

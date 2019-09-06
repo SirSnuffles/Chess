@@ -3,7 +3,7 @@ import Pieces
 
 class Board:
     def __init__(self):
-        self.BoardArray = [[Pieces.Piece("White") for x in range(8)] for y in range(8)]
+        self.BoardArray = [[Pieces.Piece("") for x in range(8)] for y in range(8)]
         wRook1 = Pieces.Rook((0, 0), "White", "Black")
         wRook2 = Pieces.Rook((7, 0), "White", "White")
         wKnight1 = Pieces.Knight((1, 0), "White", "White")
@@ -88,12 +88,12 @@ class Board:
             pass
 
 
-# def main():
-#     newBoard = Board()
-#     newBoard.__repr__()
-#     for i in newBoard.BoardArray:
-#         print(i)
+def main():
+    newBoard = Board()
+    newBoard.__repr__()
+    for i in newBoard.BoardArray:
+        print(i)
 
 
-# if __name__ == "__main__":
-#     main()
+if __name__ == "__main__":
+    main()

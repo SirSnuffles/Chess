@@ -156,7 +156,51 @@ class GuiBoard(tk.Frame):
         print(NewBoard.BoardArray[x][y])
 
     def recordInput(self, x, y):
-        print("pushed Location: ", x, y)
+        print("pushed Location: ", y, x)
+
+        if isinstance(self.NewBoard.BoardArray[x][y], Pieces.Pawn):
+            self.NewBoard.BoardArray[x][y].genPossibleMove()
+            print(
+                self.NewBoard.BoardArray[x][y],
+                self.NewBoard.BoardArray[x][y],
+                self.NewBoard.BoardArray[x][y].possibleMoves,
+            )
+
+        if isinstance(self.NewBoard.BoardArray[x][y], Pieces.Rook):
+            self.NewBoard.BoardArray[x][y].genPossibleMove()
+            print(
+                self.NewBoard.BoardArray[x][y],
+                self.NewBoard.BoardArray[x][y].possibleMoves,
+            )
+
+        if isinstance(self.NewBoard.BoardArray[x][y], Pieces.Knight):
+            self.NewBoard.BoardArray[x][y].genPossibleMove()
+            print(
+                self.NewBoard.BoardArray[x][y],
+                self.NewBoard.BoardArray[x][y].possibleMoves,
+            )
+
+        # if button pushes a bishop instance
+        if isinstance(self.NewBoard.BoardArray[x][y], Pieces.Bishop):
+            self.NewBoard.BoardArray[x][y].genPossibleMove()
+            print(
+                self.NewBoard.BoardArray[x][y],
+                self.NewBoard.BoardArray[x][y].possibleMoves,
+            )
+
+        if isinstance(self.NewBoard.BoardArray[x][y], Pieces.King):
+            self.NewBoard.BoardArray[x][y].genPossibleMove()
+            print(
+                self.NewBoard.BoardArray[x][y],
+                self.NewBoard.BoardArray[x][y].possibleMoves,
+            )
+
+        if isinstance(self.NewBoard.BoardArray[x][y], Pieces.Queen):
+            self.NewBoard.BoardArray[x][y].genPossibleMove()
+            print(
+                self.NewBoard.BoardArray[x][y],
+                self.NewBoard.BoardArray[x][y].possibleMoves,
+            )
 
     def updateBoard(self):
         # update buttons with images of self.board
@@ -288,15 +332,13 @@ class GuiBoard(tk.Frame):
 
 
 def main():
-
     newGame = GuiBoard(NewBoard)
-
     newGame.printBoard()
 
 
 if __name__ == "__main__":
     root = tk.Tk()
-    root.geometry("950x690")
+    root.geometry("530x530")
     root.title("Chess")
     GuiBoard(root).pack(side="top", fill="both", expand=True)
     root.mainloop()
