@@ -3,7 +3,15 @@ import Pieces
 
 class Board:
     def __init__(self):
-        self.BoardArray = [[Pieces.Piece("") for x in range(8)] for y in range(8)]
+        # self.BoardArray = [[Pieces.Square("") for x in range(8)] for y in range(8)]
+        self.BoardArray = [[Pieces.Square("Black") if (x + y) % 2 == 0 else Pieces.Square("White")
+         for x in range(8)] for y in range(8)]
+        # arguments for Pieces;location, colour, squarecolour
+        # for i in self.squareArray:
+        # 	print(i.squareColour for j in i)
+        self.setupStandardChessBoard()
+
+    def setupStandardChessBoard(self):
         wRook1 = Pieces.Rook((0, 0), "White", "Black")
         wRook2 = Pieces.Rook((7, 0), "White", "White")
         wKnight1 = Pieces.Knight((1, 0), "White", "White")
@@ -88,12 +96,12 @@ class Board:
             pass
 
 
-def main():
-    newBoard = Board()
-    newBoard.__repr__()
-    for i in newBoard.BoardArray:
-        print(i)
+# def main():
+#     newBoard = Board()
+#     # newBoard.__repr__()
+#     # for i in newBoard.BoardArray:
+#     #     print(i)
 
 
-if __name__ == "__main__":
-    main()
+# if __name__ == "__main__":
+#     main()

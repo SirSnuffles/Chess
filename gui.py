@@ -33,8 +33,14 @@ class GuiBoard(tk.Frame):
         BlackSquare = Image.open("Icons/BlackSquare.png")
         self.BlackSquareImage = ImageTk.PhotoImage(BlackSquare)
 
-        white = Image.open("Icons/WhiteSquare.png")
-        self.WhiteSquareImage = ImageTk.PhotoImage(white)
+        WhiteSquare = Image.open("Icons/WhiteSquare.png")
+        self.WhiteSquareImage = ImageTk.PhotoImage(WhiteSquare)
+
+        BlackSquarePos = Image.open("Icons/BlackSquarePos.png")
+        self.BlackSquarePosImage = ImageTk.PhotoImage(BlackSquarePos)
+
+        WhiteSquarePos = Image.open("Icons/WhiteSquarePos.png")
+        self.WhiteSquarePosImage = ImageTk.PhotoImage(WhiteSquarePos)
 
         BlackPawnBlackSquare = Image.open("Icons/BlackPawnBlackSquare.png")
         self.BlackPawnBlackSquareImage = ImageTk.PhotoImage(BlackPawnBlackSquare)
@@ -119,7 +125,7 @@ class GuiBoard(tk.Frame):
                             image=self.BlackSquareImage,
                             command=lambda x=x, y=y: self.recordInput(x, y),
                         )
-                        self.board[x][y] = Pieces.Piece("b")
+                        # self.board[x][y] = Pieces.Piece("b")
                         self.button[x][y].grid(row=x, column=y)
                     elif y % 2 == 1:
                         self.button[x][y] = tk.Button(
@@ -127,7 +133,7 @@ class GuiBoard(tk.Frame):
                             image=self.WhiteSquareImage,
                             command=lambda x=x, y=y: self.recordInput(x, y),
                         )
-                        self.board[x][y] = Pieces.Piece("w")
+                        # self.board[x][y] = Pieces.Piece("w")
                         self.button[x][y].grid(row=x, column=y)
                 if x % 2 == 1:
                     if y % 2 == 1:
@@ -136,7 +142,7 @@ class GuiBoard(tk.Frame):
                             image=self.BlackSquareImage,
                             command=lambda x=x, y=y: self.recordInput(x, y),
                         )
-                        self.board[x][y] = Pieces.Piece("b")
+                        # self.board[x][y] = Pieces.Piece("b")
                         self.button[x][y].grid(row=x, column=y)
                     elif y % 2 == 0:
                         self.button[x][y] = tk.Button(
@@ -144,11 +150,11 @@ class GuiBoard(tk.Frame):
                             image=self.WhiteSquareImage,
                             command=lambda x=x, y=y: self.recordInput(x, y),
                         )
-                        self.board[x][y] = Pieces.Piece("w")
+                        # self.board[x][y] = Pieces.Piece("w")
                         self.button[x][y].grid(row=x, column=y)
 
     def printBoard(self):
-        for i in NewBoard.BoardArray:
+        for i in self.NewBoard.BoardArray:
             print(i)
 
     def setPieceButtonImage(self, x, y):
@@ -163,8 +169,19 @@ class GuiBoard(tk.Frame):
             print(
                 self.NewBoard.BoardArray[x][y],
                 self.NewBoard.BoardArray[x][y],
-                self.NewBoard.BoardArray[x][y].possibleMoves,
+                self.NewBoard.BoardArray[x][y].squareColour,
             )
+            for posLocation in self.NewBoard.BoardArray[x][y].possibleMoves:
+            	print(posLocation[0], posLocation[1])
+            	print(self.NewBoard.BoardArray[posLocation[0]][posLocation[1]].squareColour)
+            	if self.NewBoard.BoardArray[posLocation[0]][posLocation[1]].squareColour == "Black":
+            		self.button[posLocation[1]][posLocation[0]].config(
+                    image=self.BlackSquarePosImage
+                )
+            	elif self.NewBoard.BoardArray[posLocation[0]][posLocation[1]].squareColour == "White":
+                	self.button[posLocation[1]][posLocation[0]].config(
+                    image=self.WhiteSquarePosImage
+                )
 
         if isinstance(self.NewBoard.BoardArray[x][y], Pieces.Rook):
             self.NewBoard.BoardArray[x][y].genPossibleMove()
@@ -173,12 +190,39 @@ class GuiBoard(tk.Frame):
                 self.NewBoard.BoardArray[x][y].possibleMoves,
             )
 
+            for posLocation in self.NewBoard.BoardArray[x][y].possibleMoves:
+                if isinstance(self.NewBoard.BoardArray[posLocation[1]][posLocation[0]], Pieces.Square):
+                    print(posLocation[0], posLocation[1])
+                    print(self.NewBoard.BoardArray[posLocation[0]][posLocation[1]].squareColour)
+                    if self.NewBoard.BoardArray[posLocation[0]][posLocation[1]].squareColour == "Black":
+                        self.button[posLocation[1]][posLocation[0]].config(
+                        image=self.BlackSquarePosImage
+                    )
+                    elif self.NewBoard.BoardArray[posLocation[0]][posLocation[1]].squareColour == "White":
+                        self.button[posLocation[1]][posLocation[0]].config(
+                        image=self.WhiteSquarePosImage
+                    )
+
+
         if isinstance(self.NewBoard.BoardArray[x][y], Pieces.Knight):
             self.NewBoard.BoardArray[x][y].genPossibleMove()
             print(
                 self.NewBoard.BoardArray[x][y],
                 self.NewBoard.BoardArray[x][y].possibleMoves,
             )
+            for posLocation in self.NewBoard.BoardArray[x][y].possibleMoves:
+                if posLocation[0] in range(8) and posLocation[1] in range(8):
+                    # if self.NewBoard.BoardArrayposLocation[0],
+                    if isinstance(self.NewBoard.BoardArray[posLocation[1]][posLocation[0]], Pieces.Square):
+                        # if self.NewBoard.BoardArray[posLocation[1]][posLocation[0]].colour == self.NewBoard.BoardArray[x][y].colour:
+                        if self.NewBoard.BoardArray[posLocation[0]][posLocation[1]].squareColour == "Black":
+                            self.button[posLocation[1]][posLocation[0]].config(
+                            image=self.BlackSquarePosImage
+                        )
+                        elif self.NewBoard.BoardArray[posLocation[0]][posLocation[1]].squareColour == "White":
+                            self.button[posLocation[1]][posLocation[0]].config(
+                            image=self.WhiteSquarePosImage
+                        )
 
         # if button pushes a bishop instance
         if isinstance(self.NewBoard.BoardArray[x][y], Pieces.Bishop):
@@ -188,12 +232,38 @@ class GuiBoard(tk.Frame):
                 self.NewBoard.BoardArray[x][y].possibleMoves,
             )
 
+            for posLocation in self.NewBoard.BoardArray[x][y].possibleMoves:
+                if isinstance(self.NewBoard.BoardArray[posLocation[1]][posLocation[0]], Pieces.Square):
+                    print(posLocation[0], posLocation[1])
+                    print(self.NewBoard.BoardArray[posLocation[0]][posLocation[1]].squareColour)
+                    if self.NewBoard.BoardArray[posLocation[0]][posLocation[1]].squareColour == "Black":
+                        self.button[posLocation[1]][posLocation[0]].config(
+                        image=self.BlackSquarePosImage
+                    )
+                    elif self.NewBoard.BoardArray[posLocation[0]][posLocation[1]].squareColour == "White":
+                        self.button[posLocation[1]][posLocation[0]].config(
+                        image=self.WhiteSquarePosImage
+                    )
+
         if isinstance(self.NewBoard.BoardArray[x][y], Pieces.King):
             self.NewBoard.BoardArray[x][y].genPossibleMove()
             print(
                 self.NewBoard.BoardArray[x][y],
                 self.NewBoard.BoardArray[x][y].possibleMoves,
             )
+            for posLocation in self.NewBoard.BoardArray[x][y].possibleMoves:
+                if posLocation[0] in range(8) and posLocation[1] in range(8):
+                    if isinstance(self.NewBoard.BoardArray[posLocation[1]][posLocation[0]], Pieces.Square):
+                        print(posLocation[0], posLocation[1])
+                        print(self.NewBoard.BoardArray[posLocation[0]][posLocation[1]].squareColour)
+                        if self.NewBoard.BoardArray[posLocation[0]][posLocation[1]].squareColour == "Black":
+                            self.button[posLocation[1]][posLocation[0]].config(
+                            image=self.BlackSquarePosImage
+                        )
+                        elif self.NewBoard.BoardArray[posLocation[0]][posLocation[1]].squareColour == "White":
+                            self.button[posLocation[1]][posLocation[0]].config(
+                            image=self.WhiteSquarePosImage
+                        )
 
         if isinstance(self.NewBoard.BoardArray[x][y], Pieces.Queen):
             self.NewBoard.BoardArray[x][y].genPossibleMove()
@@ -201,6 +271,18 @@ class GuiBoard(tk.Frame):
                 self.NewBoard.BoardArray[x][y],
                 self.NewBoard.BoardArray[x][y].possibleMoves,
             )
+            for posLocation in self.NewBoard.BoardArray[x][y].possibleMoves:
+                if isinstance(self.NewBoard.BoardArray[posLocation[1]][posLocation[0]], Pieces.Square):
+                    print(posLocation[0], posLocation[1])
+                    print(self.NewBoard.BoardArray[posLocation[0]][posLocation[1]].squareColour)
+                    if self.NewBoard.BoardArray[posLocation[0]][posLocation[1]].squareColour == "Black":
+                        self.button[posLocation[1]][posLocation[0]].config(
+                        image=self.BlackSquarePosImage
+                    )
+                    elif self.NewBoard.BoardArray[posLocation[0]][posLocation[1]].squareColour == "White":
+                        self.button[posLocation[1]][posLocation[0]].config(
+                        image=self.WhiteSquarePosImage
+                    )
 
     def updateBoard(self):
         # update buttons with images of self.board
@@ -331,9 +413,17 @@ class GuiBoard(tk.Frame):
                         )
 
 
-def main():
-    newGame = GuiBoard(NewBoard)
-    newGame.printBoard()
+#TODO:
+#additional TODO in Pieces.py
+
+#Allow movement of pieces to possible move squares
+
+#prevent possibleMoves going through objects in the board #Could be a problem with the instance
+#Board being initiated in the gui class
+
+#tidyup each isinstance(square) and in range(8) for both x and y locations, could be 
+#abstracted into a function to keep it simplier
+
 
 
 if __name__ == "__main__":
