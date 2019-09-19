@@ -1,7 +1,8 @@
-import Pieces
+# import Pieces
+from Main import Pieces
 
 
-class Board:
+class MainBoard:
     def __init__(self):
         # self.BoardArray = [[Pieces.Square("") for x in range(8)] for y in range(8)]
         self.BoardArray = [[Pieces.Square("Black") if (x + y) % 2 == 0 else Pieces.Square("White")
@@ -87,7 +88,7 @@ class Board:
         for rowIndx, row in enumerate(self.BoardArray):
             for item in row:
                 reprBoard[rowIndx].append(item.name)
-        return reprBoard
+        return str(reprBoard)
 
     def move(self, piece, pos):
         if pos in Pieces.piece.getPossiblePos():
