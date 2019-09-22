@@ -9,8 +9,6 @@ class GuiBoard(tk.Frame):
 		in the game of checkers"""
 
 		self.button = [["" for x in range(8)] for y in range(8)]
-		self.board = [["" for x in range(8)] for y in range(8)]
-
 		# self.board = Board.Board()
 		self.initialButtonPush = ()
 		self.buttonPushed = ""
@@ -26,12 +24,8 @@ class GuiBoard(tk.Frame):
 		self.Player1 = Player1
 		self.Player2 = Player2
 		
-		# self.printBoard()
 		self.updateBoard()
 
-	# @staticmethod
-	# def returnBoard(self):
-	#     return self.boar
 
 	def setupButtonImages(self):
 		# Open the images that are saved locally
@@ -119,6 +113,61 @@ class GuiBoard(tk.Frame):
 		WhiteQueenWhiteSquare = Image.open("Icons/WhiteQueenWhiteSquare.png")
 		self.WhiteQueenWhiteSquareImage = ImageTk.PhotoImage(WhiteQueenWhiteSquare)
 
+
+
+
+
+
+
+
+		BlackSquare = Image.open("Icons/BlackSquare.png")
+		self.BlackSquareImage = ImageTk.PhotoImage(BlackSquare)
+
+		WhiteSquare = Image.open("Icons/WhiteSquare.png")
+		self.WhiteSquareImage = ImageTk.PhotoImage(WhiteSquare)
+
+		BlackSquarePos = Image.open("Icons/BlackSquarePos.png")
+		self.BlackSquarePosImage = ImageTk.PhotoImage(BlackSquarePos)
+
+		WhiteSquarePos = Image.open("Icons/WhiteSquarePos.png")
+		self.WhiteSquarePosImage = ImageTk.PhotoImage(WhiteSquarePos)
+
+		BlackPawnRedSquare = Image.open("Icons/BlackPawnRedSquare.png")
+		self.BlackPawnRedSquareImage = ImageTk.PhotoImage(BlackPawnRedSquare)
+
+		WhitePawnRedSquare = Image.open("Icons/WhitePawnRedSquare.png")
+		self.WhitePawnRedSquareImage = ImageTk.PhotoImage(WhitePawnRedSquare)
+
+		BlackRookRedSquare = Image.open("Icons/BlackRookRedSquare.png")
+		self.BlackRookRedSquareImage = ImageTk.PhotoImage(BlackRookRedSquare)
+
+		WhiteRookRedSquare = Image.open("Icons/WhiteRookRedSquare.png")
+		self.WhiteRookRedSquareImage = ImageTk.PhotoImage(WhiteRookRedSquare)
+
+		BlackKnightRedSquare = Image.open("Icons/BlackKnightRedSquare.png")
+		self.BlackKnightRedSquareImage = ImageTk.PhotoImage(BlackKnightRedSquare)
+
+		WhiteKnightRedSquare = Image.open("Icons/WhiteKnightRedSquare.png")
+		self.WhiteKnightRedSquareImage = ImageTk.PhotoImage(WhiteKnightRedSquare)
+
+		BlackBishopRedSquare = Image.open("Icons/BlackBishopRedSquare.png")
+		self.BlackBishopRedSquareImage = ImageTk.PhotoImage(BlackBishopRedSquare)
+
+		WhiteBishopRedSquare = Image.open("Icons/WhiteBishopRedSquare.png")
+		self.WhiteBishopRedSquareImage = ImageTk.PhotoImage(WhiteBishopRedSquare)
+
+		BlackKingRedSquare = Image.open("Icons/BlackKingRedSquare.png")
+		self.BlackKingRedSquareImage = ImageTk.PhotoImage(BlackKingRedSquare)
+
+		WhiteKingRedSquare = Image.open("Icons/WhiteKingRedSquare.png")
+		self.WhiteKingRedSquareImage = ImageTk.PhotoImage(WhiteKingRedSquare)
+
+		BlackQueenRedSquare = Image.open("Icons/BlackQueenRedSquare.png")
+		self.BlackQueenRedSquareImage = ImageTk.PhotoImage(BlackQueenRedSquare)
+
+		WhiteQueenRedSquare = Image.open("Icons/WhiteQueenRedSquare.png")
+		self.WhiteQueenRedSquareImage = ImageTk.PhotoImage(WhiteQueenRedSquare)
+
 	def setupBoard(self):
 		"""Sets up the grid of alternating black and white buttons"""
 		for x in range(8):
@@ -158,28 +207,15 @@ class GuiBoard(tk.Frame):
 						# self.board[x][y] = Pieces.Piece("w")
 						self.button[x][y].grid(row=x, column=y)
 
-	def returnBoard(self):
-		return self.NewBoard.BoardArray
-
-	def setPieceButtonImage(self, x, y):
-		"""update button images"""
-		print(NewBoard.BoardArray[x][y])
-
-	def changeButtonImage(self, State):
-		pass
-
 	def loadPossibleMoves(self, x, y):
 		if isinstance(self.NewBoard.BoardArray[x][y], Pieces.Piece):
 			self.NewBoard.BoardArray[x][y].genPossibleMove(self.NewBoard.BoardArray)
 		else:
 			return
-		
 		for posLocation in self.NewBoard.BoardArray[x][y].possibleMoves:
 			if isinstance(self.NewBoard.BoardArray[posLocation[1]][posLocation[0]], Pieces.Square):
-				# print(self.NewBoard.BoardArray[posLocation[0]][posLocation[1]].possibleMove)
 				if self.NewBoard.BoardArray[posLocation[0]][posLocation[1]].possibleMove == True:
 					self.NewBoard.BoardArray[posLocation[0]][posLocation[1]].possibleMove = False
-
 					if self.NewBoard.BoardArray[posLocation[0]][posLocation[1]].squareColour == "Black":
 						self.button[posLocation[1]][posLocation[0]].config(
 						image=self.BlackSquareImage
@@ -198,30 +234,71 @@ class GuiBoard(tk.Frame):
 						self.button[posLocation[1]][posLocation[0]].config(
 						image=self.WhiteSquarePosImage
 					)
-			if isinstance(self.NewBoard.BoardArray[posLocation[1]][posLocation[0]], Pieces.Piece):
-				if self.NewBoard.BoardArray[x][y].colour != self.NewBoard.BoardArray[x][y].colour:
-					print('set take picture and take flag on piece object')
+			elif isinstance(self.NewBoard.BoardArray[posLocation[1]][posLocation[0]], Pieces.Piece):
+				if self.NewBoard.BoardArray[posLocation[1]][posLocation[0]].colour != self.NewBoard.BoardArray[x][y].colour:
 
+					if self.NewBoard.BoardArray[posLocation[0]][posLocation[1]].possibleMove == True:
+						self.NewBoard.BoardArray[posLocation[0]][posLocation[1]].possibleMove = False
+						self.button[posLocation[1]][posLocation[0]].config(
+						image=self.returnPossibleTakeMove(self.NewBoard.BoardArray[posLocation[1]][posLocation[0]])
+						)
+					elif self.NewBoard.BoardArray[posLocation[0]][posLocation[1]].possibleMove == False:
+						self.NewBoard.BoardArray[posLocation[0]][posLocation[1]].possibleMove = True
+						self.button[posLocation[1]][posLocation[0]].config(
+						image=self.returnPossibleTakeMove(self.NewBoard.BoardArray[posLocation[1]][posLocation[0]])
+						)
+
+	def returnPossibleTakeMove(self, piece):
+		# configure images based on squarecolour and piece type and piece colour
+		if piece.name == "Pawn" and piece.colour == "White":
+			return self.WhitePawnRedSquareImage
+		elif piece.name == "Pawn" and piece.colour == "Black":
+			return self.BlackPawnRedSquareImage
+		elif piece.name == "Rook" and piece.colour == "White":
+			return self.WhiteRookRedSquareImage
+		elif piece.name == "Rook" and piece.colour == "Black":
+			return self.BlackRookRedSquareImage
+		elif piece.name == "Knight" and piece.colour == "White":
+			return self.WhiteKnightRedSquareImage
+		elif piece.name == "Knight" and piece.colour == "Black":
+			return self.BlackKnightRedSquareImage
+		elif piece.name == "Bishop" and piece.colour == "White":
+			return self.WhiteBishopRedSquareImage
+		elif piece.name == "Bishop" and piece.colour == "Black":
+			return self.BlackBishopRedSquareImage
+		elif piece.name == "Queen" and piece.colour == "White":
+			return self.WhiteQueenRedSquareImage
+		elif piece.name == "Queen" and piece.colour == "Black":
+			return self.BlackQueenRedSquareImage
+		elif piece.name == "King" and piece.colour == "White":
+			return self.WhiteKingRedSquareImage
+		elif piece.name == "King" and piece.colour == "Black":
+			return self.BlackKingRedSquareImage
 
 	def recordInput(self, x, y):
 		moveMade = False
-		print(x,y)
 		if not moveMade:
 
 			if self.initialButtonPush == ():  # initial button push
 				self.initialButtonPush = (x, y)
+				self.button[x][y].config(
+						image=self.returnPossibleTakeMove(self.NewBoard.BoardArray[x][y])
+						)
 				# print(self.NewBoard.BoardArray[x][y], type(self.NewBoard.BoardArray[x][y]))
-				
-				if self.NewBoard.BoardArray[x][y].colour == 'White' and self.Player1.turn:
-					#player1 turn
-					self.loadPossibleMoves(x,y)
+				if isinstance(self.NewBoard.BoardArray[x][y], Pieces.Piece):
 
-				elif self.NewBoard.BoardArray[x][y].colour == "Black" and self.Player2.turn:
-					#player2 turn
-					self.loadPossibleMoves(x,y)
+					if self.NewBoard.BoardArray[x][y].colour == 'White' and self.Player1.turn:
+						#player1 turn
+						self.loadPossibleMoves(x,y)
+
+					elif self.NewBoard.BoardArray[x][y].colour == "Black" and self.Player2.turn:
+						#player2 turn
+						self.loadPossibleMoves(x,y)
+				else:
+					self.initialButtonPush = ()
 
 			elif self.nextButton != self.initialButtonPush and self.NewBoard.BoardArray[y][x].possibleMove:
-				#allow move
+				# #allow move
 				self.loadPossibleMoves(self.initialButtonPush[0],self.initialButtonPush[1])
 				self.nextButton = (x, y)
 
@@ -233,16 +310,25 @@ class GuiBoard(tk.Frame):
 					self.Player1.turn = True
 					self.Player2.turn = False
 				self.initialButtonPush = ()
+				self.updateBoard()
+
+			elif self.nextButton != self.initialButtonPush and not self.NewBoard.BoardArray[y][x].possibleMove:
+				self.loadPossibleMoves(self.initialButtonPush[0], self.initialButtonPush[1])
+				self.nextButton = ()
+				self.initialButtonPush = ()
+
+				self.updateBoard()
+
 
 			elif self.initialButtonPush == (x, y):
 				#deselect initialButtonPush and toggle possibleMoves
 				self.loadPossibleMoves(x,y)
 				self.initialButtonPush = ()
+				self.updateBoard()
 
 				
 	def move(self, pieceLoc, posLoc):
 		posColour = self.NewBoard.BoardArray[posLoc[0]][posLoc[1]].squareColour #white
-		print(self.NewBoard.BoardArray[pieceLoc[0]][pieceLoc[1]].squareColour) #black
 
 		self.NewBoard.BoardArray[posLoc[0]][posLoc[1]], \
 		self.NewBoard.BoardArray[pieceLoc[0]][pieceLoc[1]].location, \
@@ -251,7 +337,7 @@ class GuiBoard(tk.Frame):
 		self.NewBoard.BoardArray[pieceLoc[0]][pieceLoc[1]], \
 		(posLoc[1], posLoc[0]), \
 		posColour, \
-		Pieces.Square(self.NewBoard.BoardArray[pieceLoc[0]][pieceLoc[1]].squareColour)
+		Pieces.Square(self.NewBoard.BoardArray[pieceLoc[1]][pieceLoc[0]].squareColour)
 
 		self.updateBoard()
 
@@ -260,12 +346,14 @@ class GuiBoard(tk.Frame):
 		# TODO:
 		# collapse to config when self.board is edited
 		for indx, x in enumerate(self.NewBoard.BoardArray):
+			# print(x.possibleMove)
 			for indy, y in enumerate(x):
-				# configure images based on squarecolour and piece type and piece colour
+				y.possibleMove = False
 				if y.name == "Pawn" and y.colour == "White":
 					# WhitePawn
 					if y.squareColour == "White":
-						self.button[indx][indy].config(
+						
+							self.button[indx][indy].config(
 							image=self.WhitePawnWhiteSquareImage
 						)
 					elif y.squareColour == "Black":
@@ -287,7 +375,7 @@ class GuiBoard(tk.Frame):
 					if y.squareColour == "White":
 						self.button[indx][indy].config(
 							image=self.WhiteRookWhiteSquareImage
-						)
+							)
 					elif y.squareColour == "Black":
 						self.button[indx][indy].config(
 							image=self.WhiteRookBlackSquareImage
@@ -361,7 +449,7 @@ class GuiBoard(tk.Frame):
 					elif y.squareColour == "Black":
 						self.button[indx][indy].config(
 							image=self.BlackKingBlackSquareImage
-						)
+							)
 				elif y.name == "Queen" and y.colour == "White":
 					# WhiteQueen
 					if y.squareColour == "White":
@@ -391,18 +479,8 @@ class GuiBoard(tk.Frame):
 						self.button[indx][indy].config(
 							image=self.BlackSquareImage
 						)
+				
 
 
-#TODO:
-#additional TODO in Pieces.py
 
-#Allow movement of pieces to possible move squares
-
-#tidyup each isinstance(square) and in range(8) for both x and y locations, could be 
-#abstracted into a function to keep it simplier
-
-#implement a turn based system only allowing alternate players selecting their own coloured pieces
-#
-
-# if __name__ == "__main__":
 

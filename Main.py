@@ -7,6 +7,29 @@ import gui
 import Player
 
 
+#TODO:
+#Main.py@@@@@@@@@@@@@
+#convert to .exe using cxfreeze
+#Dont allow other moves if king in check
+#Maybe allow multiplayer through sockets??
+
+#TODO:
+#gui.py@@@@@@@@@@@@@@
+
+#
+
+#tidyup each isinstance(square) and in range(8) for both x and y locations, could be 
+#abstracted into a function to keep it simplier
+
+#implement a turn based system only allowing alternate players selecting their own coloured pieces
+#
+
+# TODO:
+ #Pieces.py@@@@@@@@@@@@@
+# Implement en passant (spelling????) bloody french :D
+# Implement castling
+#
+
 def main():
 # name, turn, colour, winStatus,timeRemaining,numberOfPieces
 	time = 600
@@ -18,7 +41,7 @@ def main():
 	root.geometry("530x530")
 	root.title("Chess")
 	NewBoard = Board.MainBoard()
-	print(NewBoard)
+
 	gui.GuiBoard(root, NewBoard, Player1, Player2).pack(side="top", fill="both", expand=True)
 	root.mainloop()
 

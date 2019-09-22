@@ -1,11 +1,5 @@
 
-# from Main import gui
-#TODO:
-#must prevent iterable possibleMoves through other pieces
-#must check if the possibleMove is an enemy piece and offer to take.
 
-# print(Main.NewBoard)
-# print()
 
 class Square():
     def __init__(self, squareColour):
@@ -40,7 +34,7 @@ class Rook(Piece):
         while curLocation[0] in range(8) and curLocation[1] in range(8):
             if isinstance(board[curLocation[1]][curLocation[0]], Piece):
                 if board[curLocation[1]][curLocation[0]].colour == self.oppositeColour:
-                    print('allow take1')
+                    self.possibleMoves += ((curLocation[0], curLocation[1]),)
                     break
                 if board[curLocation[1]][curLocation[0]].colour == self.colour:
                     print(type(board[curLocation[1]][curLocation[0]]))
@@ -53,7 +47,7 @@ class Rook(Piece):
         while curLocation[0] in range(8) and curLocation[1] in range(8):
             if isinstance(board[curLocation[1]][curLocation[0]], Piece):
                 if board[curLocation[1]][curLocation[0]].colour == self.oppositeColour:
-                    print('allow take2')
+                    self.possibleMoves += ((curLocation[0], curLocation[1]),)
                     break
                 if board[curLocation[1]][curLocation[0]].colour == self.colour:
                     print(type(board[curLocation[1]][curLocation[0]]))
@@ -67,7 +61,7 @@ class Rook(Piece):
         while curLocation[0] in range(8) and curLocation[1] in range(8):
             if isinstance(board[curLocation[1]][curLocation[0]], Piece):
                 if board[curLocation[1]][curLocation[0]].colour == self.oppositeColour:
-                    print('allow take3')
+                    self.possibleMoves += ((curLocation[0], curLocation[1]),)
                     break
                 if board[curLocation[1]][curLocation[0]].colour == self.colour:
                     print(type(board[curLocation[1]][curLocation[0]]))
@@ -80,7 +74,7 @@ class Rook(Piece):
         while curLocation[0] in range(8) and curLocation[1] in range(8):
             if isinstance(board[curLocation[1]][curLocation[0]], Piece):
                 if board[curLocation[1]][curLocation[0]].colour == self.oppositeColour:
-                    print('allow take4')
+                    self.possibleMoves += ((curLocation[0], curLocation[1]),)
                     break
                 if board[curLocation[1]][curLocation[0]].colour == self.colour:
                     print(type(board[curLocation[1]][curLocation[0]]))
@@ -141,7 +135,9 @@ class Bishop(Piece):
         while curLocation[0] in range(8) and curLocation[1] in range(8):
             if isinstance(board[curLocation[1]][curLocation[0]], Piece):
                 if board[curLocation[1]][curLocation[0]].colour == self.oppositeColour:
+                    self.possibleMoves += ((curLocation[0], curLocation[1]),)
                     print('allow take')
+                    curLocation = (curLocation[0] + 1, curLocation[1] + 1)
                     break
                 if board[curLocation[1]][curLocation[0]].colour == self.colour:
                     print('allied piece in way')
@@ -153,7 +149,9 @@ class Bishop(Piece):
         while curLocation[0] in range(8) and curLocation[1] in range(8):
             if isinstance(board[curLocation[1]][curLocation[0]], Piece):
                 if board[curLocation[1]][curLocation[0]].colour == self.oppositeColour:
+                    self.possibleMoves += ((curLocation[0], curLocation[1]),)
                     print('allow take')
+                    curLocation = (curLocation[0] - 1, curLocation[1] - 1)
                     break
                 if board[curLocation[1]][curLocation[0]].colour == self.colour:
                     print('allied piece in way')
@@ -165,7 +163,9 @@ class Bishop(Piece):
         while curLocation[0] in range(8) and curLocation[1] in range(8):
             if isinstance(board[curLocation[1]][curLocation[0]], Piece):
                 if board[curLocation[1]][curLocation[0]].colour == self.oppositeColour:
+                    self.possibleMoves += ((curLocation[0], curLocation[1]),)
                     print('allow take')
+                    curLocation = (curLocation[0] + 1, curLocation[1] - 1)
                     break
                 if board[curLocation[1]][curLocation[0]].colour == self.colour:
                     print('allied piece in way')
@@ -177,7 +177,9 @@ class Bishop(Piece):
         while curLocation[0] in range(8) and curLocation[1] in range(8):
             if isinstance(board[curLocation[1]][curLocation[0]], Piece):
                 if board[curLocation[1]][curLocation[0]].colour == self.oppositeColour:
+                    self.possibleMoves += ((curLocation[0], curLocation[1]),)
                     print('allow take')
+                    curLocation = (curLocation[0] - 1, curLocation[1] + 1)
                     break
                 if board[curLocation[1]][curLocation[0]].colour == self.colour:
                     print('allied piece in way')
@@ -207,7 +209,9 @@ class Queen(Piece):
         while curLocation[0] in range(8) and curLocation[1] in range(8):
             if isinstance(board[curLocation[1]][curLocation[0]], Piece):
                 if board[curLocation[1]][curLocation[0]].colour == self.oppositeColour:
-                    print('allow take')
+                    # self.possibleMoves += ((curLocation[1], curLocation[0]),)
+                    self.possibleMoves += ((curLocation[0], curLocation[1]),)
+                    print('allow take', board[curLocation[1]][curLocation[0]], board[curLocation[1]][curLocation[0]].location)
                     break
                 if board[curLocation[1]][curLocation[0]].colour == self.colour:
                     print('allied piece in way')
@@ -219,7 +223,8 @@ class Queen(Piece):
         while curLocation[0] in range(8) and curLocation[1] in range(8):
             if isinstance(board[curLocation[1]][curLocation[0]], Piece):
                 if board[curLocation[1]][curLocation[0]].colour == self.oppositeColour:
-                    print('allow take')
+                    self.possibleMoves = ((curLocation[0], curLocation[1]),)
+                    print('allow take', board[curLocation[1]][curLocation[0]], board[curLocation[1]][curLocation[0]].location)
                     break
                 if board[curLocation[1]][curLocation[0]].colour == self.colour:
                     print('allied piece in way')
@@ -231,7 +236,8 @@ class Queen(Piece):
         while curLocation[0] in range(8) and curLocation[1] in range(8):
             if isinstance(board[curLocation[1]][curLocation[0]], Piece):
                 if board[curLocation[1]][curLocation[0]].colour == self.oppositeColour:
-                    print('allow take')
+                    self.possibleMoves += ((curLocation[0], curLocation[1]),)
+                    print('allow take', board[curLocation[1]][curLocation[0]], board[curLocation[1]][curLocation[0]].location)
                     break
                 if board[curLocation[1]][curLocation[0]].colour == self.colour:
                     print('allied piece in way')
@@ -243,7 +249,8 @@ class Queen(Piece):
         while curLocation[0] in range(8) and curLocation[1] in range(8):
             if isinstance(board[curLocation[1]][curLocation[0]], Piece):
                 if board[curLocation[1]][curLocation[0]].colour == self.oppositeColour:
-                    print('allow take')
+                    self.possibleMoves += ((curLocation[0], curLocation[1]),)
+                    print('allow take', board[curLocation[1]][curLocation[0]], board[curLocation[1]][curLocation[0]].location)
                     break
                 if board[curLocation[1]][curLocation[0]].colour == self.colour:
                     print('allied piece in way')
@@ -255,7 +262,8 @@ class Queen(Piece):
         while curLocation[0] in range(8) and curLocation[1] in range(8):
             if isinstance(board[curLocation[1]][curLocation[0]], Piece):
                 if board[curLocation[1]][curLocation[0]].colour == self.oppositeColour:
-                    print('allow take')
+                    self.possibleMoves += ((curLocation[0], curLocation[1]),)
+                    print('allow take', board[curLocation[1]][curLocation[0]], board[curLocation[1]][curLocation[0]].location)
                     break
                 if board[curLocation[1]][curLocation[0]].colour == self.colour:
                     print('allied piece in way')
@@ -267,7 +275,8 @@ class Queen(Piece):
         while curLocation[0] in range(8) and curLocation[1] in range(8):
             if isinstance(board[curLocation[1]][curLocation[0]], Piece):
                 if board[curLocation[1]][curLocation[0]].colour == self.oppositeColour:
-                    print('allow take')
+                    self.possibleMoves += ((curLocation[0], curLocation[1]),)
+                    print('allow take', board[curLocation[1]][curLocation[0]], board[curLocation[1]][curLocation[0]].location)
                     break
                 if board[curLocation[1]][curLocation[0]].colour == self.colour:
                     print('allied piece in way')
@@ -279,7 +288,8 @@ class Queen(Piece):
         while curLocation[0] in range(8) and curLocation[1] in range(8):
             if isinstance(board[curLocation[1]][curLocation[0]], Piece):
                 if board[curLocation[1]][curLocation[0]].colour == self.oppositeColour:
-                    print('allow take')
+                    self.possibleMoves += ((curLocation[0], curLocation[1]),)
+                    print('allow take', board[curLocation[1]][curLocation[0]], board[curLocation[1]][curLocation[0]].location)
                     break
                 if board[curLocation[1]][curLocation[0]].colour == self.colour:
                     print('allied piece in way')
@@ -291,7 +301,8 @@ class Queen(Piece):
         while curLocation[0] in range(8) and curLocation[1] in range(8):
             if isinstance(board[curLocation[1]][curLocation[0]], Piece):
                 if board[curLocation[1]][curLocation[0]].colour == self.oppositeColour:
-                    print('allow take')
+                    self.possibleMoves += ((curLocation[0], curLocation[1]),)
+                    print('allow take', board[curLocation[1]][curLocation[0]], board[curLocation[1]][curLocation[0]].location)
                     break
                 if board[curLocation[1]][curLocation[0]].colour == self.colour:
                     print('allied piece in way')
@@ -299,6 +310,7 @@ class Queen(Piece):
 
             self.possibleMoves += ((curLocation[0], curLocation[1]),)
             curLocation = (curLocation[0] - 1, curLocation[1] + 1)
+        print(self.possibleMoves)
 
 class King(Piece):
     def __init__(self, location, colour, squareColour):
@@ -341,15 +353,36 @@ class Pawn(Piece):
         self.possibleMoves = []
         toAddPossibleMoves = ()
         if self.colour == "White":
-            toAddPossibleMoves += (((self.location[0]), (self.location[1] + 1)),)
-            if self.AllowDoubleMove == True:
-                toAddPossibleMoves += (((self.location[0]), (self.location[1] + 2)),)
-
+            #if there is not piece in front of pawn
+            if not isinstance(board[self.location[1] + 1][self.location[0]], Piece):
+                toAddPossibleMoves += (((self.location[0]), (self.location[1] + 1)),)
+                if self.AllowDoubleMove == True:
+                    self.AllowDoubleMove = False
+                    #if not moved before
+                    if not isinstance(board[self.location[1] + 2][self.location[0]], Piece):
+                        toAddPossibleMoves += (((self.location[0]), (self.location[1] + 2)),)
+            #if there is a piece to take(right)
+            if isinstance(board[self.location[1] + 1][self.location[0] + 1], Piece):
+                toAddPossibleMoves += (((self.location[0] + 1), (self.location[1] + 1)),)
+            #if there is a piece to take(left)
+            if isinstance(board[self.location[1] + 1][self.location[0] - 1], Piece):
+                toAddPossibleMoves += (((self.location[0] - 1), (self.location[1] + 1)),)
         elif self.colour == "Black":
-            toAddPossibleMoves += (((self.location[0]), (self.location[1] - 1)),)
-            if self.AllowDoubleMove == True:
-                toAddPossibleMoves += (((self.location[0]), (self.location[1] - 2)),)
+            if not isinstance(board[self.location[1] - 1][self.location[0]], Piece):
+                toAddPossibleMoves += (((self.location[0]), (self.location[1] - 1)),)
+                if self.AllowDoubleMove == True:
+                    self.AllowDoubleMove = False
+                    #if not moved before
+                    if not isinstance(board[self.location[1] - 2][self.location[0]], Piece):
+                        toAddPossibleMoves += (((self.location[0]), (self.location[1] - 2)),)
+            #if there is a piece to take(left)
+            if isinstance(board[self.location[1] - 1][self.location[0] - 1], Piece):
+                toAddPossibleMoves += (((self.location[0] - 1), (self.location[1] - 1)),)
+            #if there is a piece to take(right)
+            if isinstance(board[self.location[1] - 1][self.location[0] + 1], Piece):
+                toAddPossibleMoves += (((self.location[0] + 1), (self.location[1] - 1)),)
 
         for move in toAddPossibleMoves:
             if move[0] in range(8) and move[1] in range(8):
                 self.possibleMoves += (move),
+
