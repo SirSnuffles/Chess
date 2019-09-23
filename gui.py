@@ -319,7 +319,6 @@ class GuiBoard(tk.Frame):
 
 				self.updateBoard()
 
-
 			elif self.initialButtonPush == (x, y):
 				#deselect initialButtonPush and toggle possibleMoves
 				self.loadPossibleMoves(x,y)
@@ -330,6 +329,11 @@ class GuiBoard(tk.Frame):
 	def move(self, pieceLoc, posLoc):
 		posColour = self.NewBoard.BoardArray[posLoc[0]][posLoc[1]].squareColour #white
 
+		print(self.NewBoard.BoardArray[pieceLoc[0]][pieceLoc[1]])
+		#for castling@@@@@@@@@@@@@@@@@@@@
+		self.castle(pieceLoc, posLoc)
+
+		self.NewBoard.BoardArray[pieceLoc[0]][pieceLoc[1]].isMoved = True
 		self.NewBoard.BoardArray[posLoc[0]][posLoc[1]], \
 		self.NewBoard.BoardArray[pieceLoc[0]][pieceLoc[1]].location, \
 		self.NewBoard.BoardArray[posLoc[0]][posLoc[1]].squareColour, \
@@ -340,6 +344,45 @@ class GuiBoard(tk.Frame):
 		Pieces.Square(self.NewBoard.BoardArray[pieceLoc[1]][pieceLoc[0]].squareColour)
 
 		self.updateBoard()
+
+	def castle(self, pieceLoc, posLoc):
+		"""Logic for castling"""
+		#Should be abstracted away from gui file
+		if isinstance(self.NewBoard.BoardArray[pieceLoc[0]][pieceLoc[1]], Pieces.King):
+			if not self.NewBoard.BoardArray[pieceLoc[0]][pieceLoc[1]].castled:
+				print(posLoc)
+				print(type(posLoc))
+				
+				if self.NewBoard.BoardArray[pieceLoc[0]][pieceLoc[1]].colour == "White" and not self.NewBoard.BoardArray[pieceLoc[0]][pieceLoc[1]].castled:
+					if posLoc == (0, 6):
+						self.NewBoard.BoardArray[pieceLoc[0]][pieceLoc[1]].castled = True
+						self.NewBoard.BoardArray[0][7], \
+						self.NewBoard.BoardArray[0][5] = \
+						Pieces.Square("White"), \
+						self.NewBoard.BoardArray[0][7]
+					if posLoc == (0, 2):
+						self.NewBoard.BoardArray[pieceLoc[0]][pieceLoc[1]].castled = True
+						self.NewBoard.BoardArray[0][0], \
+						self.NewBoard.BoardArray[0][3] = \
+						Pieces.Square("Black"), \
+						self.NewBoard.BoardArray[0][0]
+
+						self.NewBoard.BoardArray[0][3].squareColour = "White"
+				if self.NewBoard.BoardArray[pieceLoc[0]][pieceLoc[1]].colour == "Black" and not self.NewBoard.BoardArray[pieceLoc[0]][pieceLoc[1]].castled:
+					if posLoc == (7, 6):
+						self.NewBoard.BoardArray[pieceLoc[0]][pieceLoc[1]].castled = True
+						self.NewBoard.BoardArray[7][7], \
+						self.NewBoard.BoardArray[7][5] = \
+						Pieces.Square("Black"), \
+						self.NewBoard.BoardArray[7][7]
+					if posLoc == (7, 2):
+						self.NewBoard.BoardArray[pieceLoc[0]][pieceLoc[1]].castled = True
+						self.NewBoard.BoardArray[7][0], \
+						self.NewBoard.BoardArray[7][3] = \
+						Pieces.Square("White"), \
+						self.NewBoard.BoardArray[7][0]
+
+						self.NewBoard.BoardArray[7][3].squareColour = "Black"
 
 	def updateBoard(self):
 		# update buttons with images of self.board

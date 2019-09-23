@@ -12,23 +12,19 @@ import Player
 #convert to .exe using cxfreeze
 #Dont allow other moves if king in check
 #Maybe allow multiplayer through sockets??
-
+# 
 #TODO:
 #gui.py@@@@@@@@@@@@@@
 
 #
 
-#tidyup each isinstance(square) and in range(8) for both x and y locations, could be 
-#abstracted into a function to keep it simplier
-
-#implement a turn based system only allowing alternate players selecting their own coloured pieces
-#
-
 # TODO:
  #Pieces.py@@@@@@@@@@@@@
 # Implement en passant (spelling????) bloody french :D
-# Implement castling
-#
+# Castling could use abstraction
+# Need to only allow the king to move if is in check
+#detecting checkmate
+#minimax solution (somehow...)
 
 def main():
 # name, turn, colour, winStatus,timeRemaining,numberOfPieces

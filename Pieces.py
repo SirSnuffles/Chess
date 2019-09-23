@@ -1,6 +1,3 @@
-
-
-
 class Square():
     def __init__(self, squareColour):
         self.name = squareColour
@@ -11,9 +8,59 @@ class Square():
 
 class Piece():
     def __init__(self):
-        # Square.__init__(self)
+        """parent Piece class containing move information"""
         self.name = ""
         self.possibleMoves = []
+        self.isMoved = False
+
+    def generateDiagonal(self, direction, board):
+        if direction == "NE":
+            x, y = -1, 1
+        elif direction == "SE":
+            x, y = 1, 1
+        elif direction == "SW":
+            x, y = 1, -1
+        elif direction == "NW":
+            x, y = -1, -1
+        origLocation = self.location
+        curLocation = origLocation
+        curLocation = (curLocation[0] + x, curLocation[1] + y)
+        while curLocation[0] in range(8) and curLocation[1] in range(8):
+            if isinstance(board[curLocation[1]][curLocation[0]], Piece):
+                if board[curLocation[1]][curLocation[0]].colour == self.oppositeColour:
+                    self.possibleMoves += ((curLocation[0], curLocation[1]),)
+                    curLocation = (curLocation[0] + x, curLocation[1] + y)
+                    break
+                if board[curLocation[1]][curLocation[0]].colour == self.colour:
+                    break
+            self.possibleMoves += ((curLocation[0], curLocation[1]),)
+            curLocation = (curLocation[0] + x, curLocation[1] + y)
+        origLocation = ()
+
+    def generateHorver(self, direction, board):
+        """added horiztonal and vertical possible moves to piece"""
+        if direction == "N":
+            x, y = 0, -1
+        elif direction == "E":
+            x, y = 1, 0
+        elif direction == "S":
+            x, y = 0, 1
+        elif direction == "W":
+            x, y = -1, 0
+        origLocation = self.location
+        curLocation = origLocation
+        curLocation = (curLocation[0] + x, curLocation[1] + y)
+        while curLocation[0] in range(8) and curLocation[1] in range(8):
+            if isinstance(board[curLocation[1]][curLocation[0]], Piece):
+                if board[curLocation[1]][curLocation[0]].colour == self.oppositeColour:
+                    self.possibleMoves += ((curLocation[0], curLocation[1]),)
+                    curLocation = (curLocation[0] + x, curLocation[1] + y)
+                    break
+                if board[curLocation[1]][curLocation[0]].colour == self.colour:
+                    break
+            self.possibleMoves += ((curLocation[0], curLocation[1]),)
+            curLocation = (curLocation[0] + x, curLocation[1] + y)
+        origLocation = ()
 
 
 class Rook(Piece):
@@ -24,65 +71,15 @@ class Rook(Piece):
         self.location = location
         self.colour = colour
         self.possibleMove = False
+
         self.oppositeColour = 'Black' if colour == 'White' else 'White'
 
     def genPossibleMove(self, board):
-        self.possibleMoves = []
-        origLocation = self.location
-        curLocation = origLocation
-        curLocation = (curLocation[0] + 1, curLocation[1])
-        while curLocation[0] in range(8) and curLocation[1] in range(8):
-            if isinstance(board[curLocation[1]][curLocation[0]], Piece):
-                if board[curLocation[1]][curLocation[0]].colour == self.oppositeColour:
-                    self.possibleMoves += ((curLocation[0], curLocation[1]),)
-                    break
-                if board[curLocation[1]][curLocation[0]].colour == self.colour:
-                    print(type(board[curLocation[1]][curLocation[0]]))
-                    print('dontpass1')
-                    break
-            self.possibleMoves += ((curLocation[0], curLocation[1]),)
-            curLocation = (curLocation[0] + 1, curLocation[1])
-        curLocation = origLocation
-        curLocation = (curLocation[0] - 1, curLocation[1])
-        while curLocation[0] in range(8) and curLocation[1] in range(8):
-            if isinstance(board[curLocation[1]][curLocation[0]], Piece):
-                if board[curLocation[1]][curLocation[0]].colour == self.oppositeColour:
-                    self.possibleMoves += ((curLocation[0], curLocation[1]),)
-                    break
-                if board[curLocation[1]][curLocation[0]].colour == self.colour:
-                    print(type(board[curLocation[1]][curLocation[0]]))
-                    print('dontpass2')
-                    break
-            self.possibleMoves += ((curLocation[0], curLocation[1]),)
-            curLocation = (curLocation[0] - 1, curLocation[1])
-        
-        curLocation = origLocation
-        curLocation = (curLocation[0], curLocation[1] - 1)
-        while curLocation[0] in range(8) and curLocation[1] in range(8):
-            if isinstance(board[curLocation[1]][curLocation[0]], Piece):
-                if board[curLocation[1]][curLocation[0]].colour == self.oppositeColour:
-                    self.possibleMoves += ((curLocation[0], curLocation[1]),)
-                    break
-                if board[curLocation[1]][curLocation[0]].colour == self.colour:
-                    print(type(board[curLocation[1]][curLocation[0]]))
-                    print('dontpass3')
-                    break
-            self.possibleMoves += ((curLocation[0], curLocation[1]),)
-            curLocation = (curLocation[0], curLocation[1] - 1)
-        curLocation = origLocation
-        curLocation = (curLocation[0], curLocation[1] + 1)
-        while curLocation[0] in range(8) and curLocation[1] in range(8):
-            if isinstance(board[curLocation[1]][curLocation[0]], Piece):
-                if board[curLocation[1]][curLocation[0]].colour == self.oppositeColour:
-                    self.possibleMoves += ((curLocation[0], curLocation[1]),)
-                    break
-                if board[curLocation[1]][curLocation[0]].colour == self.colour:
-                    print(type(board[curLocation[1]][curLocation[0]]))
-                    print('dontpass4')
-                    break
-            self.possibleMoves += ((curLocation[0], curLocation[1]),)
-            curLocation = (curLocation[0], curLocation[1] + 1)
-        curLocation = origLocation
+        """Generate possible horiztonal and vertical moves using parent class piece; generateHorver function"""
+        self.generateHorver('N', board)
+        self.generateHorver('E', board)
+        self.generateHorver('S', board)
+        self.generateHorver('W', board)
 
 
 class Knight(Piece):
@@ -126,68 +123,12 @@ class Bishop(Piece):
         self.oppositeColour = 'Black' if colour == 'White' else 'White'
 
     def genPossibleMove(self, board):
-        # print(self.location, type(self.location), "HERE!")
-        self.possibleMoves = []
-        origLocation = self.location
-        curLocation = origLocation
-        # print(gui.GuiBoard.printBoard(self), "Here")
-        curLocation = (curLocation[0] + 1, curLocation[1] + 1)
-        while curLocation[0] in range(8) and curLocation[1] in range(8):
-            if isinstance(board[curLocation[1]][curLocation[0]], Piece):
-                if board[curLocation[1]][curLocation[0]].colour == self.oppositeColour:
-                    self.possibleMoves += ((curLocation[0], curLocation[1]),)
-                    print('allow take')
-                    curLocation = (curLocation[0] + 1, curLocation[1] + 1)
-                    break
-                if board[curLocation[1]][curLocation[0]].colour == self.colour:
-                    print('allied piece in way')
-                    break
-            self.possibleMoves += ((curLocation[0], curLocation[1]),)
-            curLocation = (curLocation[0] + 1, curLocation[1] + 1)
-        curLocation = origLocation
-        curLocation = (curLocation[0] - 1, curLocation[1] - 1)
-        while curLocation[0] in range(8) and curLocation[1] in range(8):
-            if isinstance(board[curLocation[1]][curLocation[0]], Piece):
-                if board[curLocation[1]][curLocation[0]].colour == self.oppositeColour:
-                    self.possibleMoves += ((curLocation[0], curLocation[1]),)
-                    print('allow take')
-                    curLocation = (curLocation[0] - 1, curLocation[1] - 1)
-                    break
-                if board[curLocation[1]][curLocation[0]].colour == self.colour:
-                    print('allied piece in way')
-                    break
-            self.possibleMoves += ((curLocation[0], curLocation[1]),)
-            curLocation = (curLocation[0] - 1, curLocation[1] - 1)
-        curLocation = origLocation
-        curLocation = (curLocation[0] + 1, curLocation[1] - 1)
-        while curLocation[0] in range(8) and curLocation[1] in range(8):
-            if isinstance(board[curLocation[1]][curLocation[0]], Piece):
-                if board[curLocation[1]][curLocation[0]].colour == self.oppositeColour:
-                    self.possibleMoves += ((curLocation[0], curLocation[1]),)
-                    print('allow take')
-                    curLocation = (curLocation[0] + 1, curLocation[1] - 1)
-                    break
-                if board[curLocation[1]][curLocation[0]].colour == self.colour:
-                    print('allied piece in way')
-                    break
-            self.possibleMoves += ((curLocation[0], curLocation[1]),)
-            curLocation = (curLocation[0] + 1, curLocation[1] - 1)
-        curLocation = origLocation
-        curLocation = (curLocation[0] - 1, curLocation[1] + 1)
-        while curLocation[0] in range(8) and curLocation[1] in range(8):
-            if isinstance(board[curLocation[1]][curLocation[0]], Piece):
-                if board[curLocation[1]][curLocation[0]].colour == self.oppositeColour:
-                    self.possibleMoves += ((curLocation[0], curLocation[1]),)
-                    print('allow take')
-                    curLocation = (curLocation[0] - 1, curLocation[1] + 1)
-                    break
-                if board[curLocation[1]][curLocation[0]].colour == self.colour:
-                    print('allied piece in way')
-                    break
-            self.possibleMoves += ((curLocation[0], curLocation[1]),)
-            curLocation = (curLocation[0] - 1, curLocation[1] + 1)
-        origLocation = ()
-
+        """Generate parent classes diagonal piece moves (northwest, northeast etc"""
+        self.generateDiagonal('NW', board)
+        self.generateDiagonal('NE', board)
+        self.generateDiagonal('SW', board)
+        self.generateDiagonal('SE', board)
+        
 
 class Queen(Piece):
     def __init__(self, location, colour, squareColour):
@@ -201,116 +142,16 @@ class Queen(Piece):
         self.oppositeColour = 'Black' if colour == 'White' else 'White'
 
     def genPossibleMove(self, board):
-
-        self.possibleMoves = []
-        origLocation = self.location
-        curLocation = origLocation
-        curLocation = (curLocation[0] + 1, curLocation[1])
-        while curLocation[0] in range(8) and curLocation[1] in range(8):
-            if isinstance(board[curLocation[1]][curLocation[0]], Piece):
-                if board[curLocation[1]][curLocation[0]].colour == self.oppositeColour:
-                    # self.possibleMoves += ((curLocation[1], curLocation[0]),)
-                    self.possibleMoves += ((curLocation[0], curLocation[1]),)
-                    print('allow take', board[curLocation[1]][curLocation[0]], board[curLocation[1]][curLocation[0]].location)
-                    break
-                if board[curLocation[1]][curLocation[0]].colour == self.colour:
-                    print('allied piece in way')
-                    break
-            self.possibleMoves += ((curLocation[0], curLocation[1]),)
-            curLocation = (curLocation[0] + 1, curLocation[1])
-        curLocation = origLocation
-        curLocation = (curLocation[0] - 1, curLocation[1])
-        while curLocation[0] in range(8) and curLocation[1] in range(8):
-            if isinstance(board[curLocation[1]][curLocation[0]], Piece):
-                if board[curLocation[1]][curLocation[0]].colour == self.oppositeColour:
-                    self.possibleMoves = ((curLocation[0], curLocation[1]),)
-                    print('allow take', board[curLocation[1]][curLocation[0]], board[curLocation[1]][curLocation[0]].location)
-                    break
-                if board[curLocation[1]][curLocation[0]].colour == self.colour:
-                    print('allied piece in way')
-                    break
-            self.possibleMoves += ((curLocation[0], curLocation[1]),)
-            curLocation = (curLocation[0] - 1, curLocation[1])
-        curLocation = origLocation
-        curLocation = (curLocation[0], curLocation[1] - 1)
-        while curLocation[0] in range(8) and curLocation[1] in range(8):
-            if isinstance(board[curLocation[1]][curLocation[0]], Piece):
-                if board[curLocation[1]][curLocation[0]].colour == self.oppositeColour:
-                    self.possibleMoves += ((curLocation[0], curLocation[1]),)
-                    print('allow take', board[curLocation[1]][curLocation[0]], board[curLocation[1]][curLocation[0]].location)
-                    break
-                if board[curLocation[1]][curLocation[0]].colour == self.colour:
-                    print('allied piece in way')
-                    break
-            self.possibleMoves += ((curLocation[0], curLocation[1]),)
-            curLocation = (curLocation[0], curLocation[1] - 1)
-        curLocation = origLocation
-        curLocation = (curLocation[0], curLocation[1] + 1)
-        while curLocation[0] in range(8) and curLocation[1] in range(8):
-            if isinstance(board[curLocation[1]][curLocation[0]], Piece):
-                if board[curLocation[1]][curLocation[0]].colour == self.oppositeColour:
-                    self.possibleMoves += ((curLocation[0], curLocation[1]),)
-                    print('allow take', board[curLocation[1]][curLocation[0]], board[curLocation[1]][curLocation[0]].location)
-                    break
-                if board[curLocation[1]][curLocation[0]].colour == self.colour:
-                    print('allied piece in way')
-                    break
-            self.possibleMoves += ((curLocation[0], curLocation[1]),)
-            curLocation = (curLocation[0], curLocation[1] + 1)
-        curLocation = origLocation
-        curLocation = (curLocation[0] + 1, curLocation[1] + 1)
-        while curLocation[0] in range(8) and curLocation[1] in range(8):
-            if isinstance(board[curLocation[1]][curLocation[0]], Piece):
-                if board[curLocation[1]][curLocation[0]].colour == self.oppositeColour:
-                    self.possibleMoves += ((curLocation[0], curLocation[1]),)
-                    print('allow take', board[curLocation[1]][curLocation[0]], board[curLocation[1]][curLocation[0]].location)
-                    break
-                if board[curLocation[1]][curLocation[0]].colour == self.colour:
-                    print('allied piece in way')
-                    break
-            self.possibleMoves += ((curLocation[0], curLocation[1]),)
-            curLocation = (curLocation[0] + 1, curLocation[1] + 1)
-        curLocation = origLocation
-        curLocation = (curLocation[0] - 1, curLocation[1] - 1)
-        while curLocation[0] in range(8) and curLocation[1] in range(8):
-            if isinstance(board[curLocation[1]][curLocation[0]], Piece):
-                if board[curLocation[1]][curLocation[0]].colour == self.oppositeColour:
-                    self.possibleMoves += ((curLocation[0], curLocation[1]),)
-                    print('allow take', board[curLocation[1]][curLocation[0]], board[curLocation[1]][curLocation[0]].location)
-                    break
-                if board[curLocation[1]][curLocation[0]].colour == self.colour:
-                    print('allied piece in way')
-                    break
-            self.possibleMoves += ((curLocation[0], curLocation[1]),)
-            curLocation = (curLocation[0] - 1, curLocation[1] - 1)
-        curLocation = origLocation
-        curLocation = (curLocation[0] + 1, curLocation[1] - 1)
-        while curLocation[0] in range(8) and curLocation[1] in range(8):
-            if isinstance(board[curLocation[1]][curLocation[0]], Piece):
-                if board[curLocation[1]][curLocation[0]].colour == self.oppositeColour:
-                    self.possibleMoves += ((curLocation[0], curLocation[1]),)
-                    print('allow take', board[curLocation[1]][curLocation[0]], board[curLocation[1]][curLocation[0]].location)
-                    break
-                if board[curLocation[1]][curLocation[0]].colour == self.colour:
-                    print('allied piece in way')
-                    break
-            self.possibleMoves += ((curLocation[0], curLocation[1]),)
-            curLocation = (curLocation[0] + 1, curLocation[1] - 1)
-        curLocation = origLocation
-        curLocation = (curLocation[0] - 1, curLocation[1] + 1)
-        while curLocation[0] in range(8) and curLocation[1] in range(8):
-            if isinstance(board[curLocation[1]][curLocation[0]], Piece):
-                if board[curLocation[1]][curLocation[0]].colour == self.oppositeColour:
-                    self.possibleMoves += ((curLocation[0], curLocation[1]),)
-                    print('allow take', board[curLocation[1]][curLocation[0]], board[curLocation[1]][curLocation[0]].location)
-                    break
-                if board[curLocation[1]][curLocation[0]].colour == self.colour:
-                    print('allied piece in way')
-                    break
-
-            self.possibleMoves += ((curLocation[0], curLocation[1]),)
-            curLocation = (curLocation[0] - 1, curLocation[1] + 1)
-        print(self.possibleMoves)
+        """generate queen moves from parent class functions generateHorver and generateDiagonal"""
+        self.generateHorver('N', board)
+        self.generateHorver('E', board)
+        self.generateHorver('S', board)
+        self.generateHorver('W', board)
+        self.generateDiagonal('NW', board)
+        self.generateDiagonal('NE', board)
+        self.generateDiagonal('SW', board)
+        self.generateDiagonal('SE', board)
+        
 
 class King(Piece):
     def __init__(self, location, colour, squareColour):
@@ -319,6 +160,7 @@ class King(Piece):
         self.name = "King"
         self.location = location
         self.colour = colour
+        self.castled = False
         self.possibleMove = False #Also considered, checked!
         self.oppositeColour = 'Black' if colour == 'White' else 'White'
 
@@ -334,9 +176,35 @@ class King(Piece):
         toAddPossibleMoves += (((self.location[0] + 1), (self.location[1] - 1)),)
         toAddPossibleMoves += (((self.location[0] - 1), (self.location[1] - 1)),)
         #to check if possible move is in bounds of the board
+        if self.colour == "White" and self.isMoved == False:
+            if isinstance(board[0][7], Rook) and board[0][7].isMoved == False:
+                if not isinstance(board[0][5], Piece) and  \
+                    not isinstance(board[0][6], Piece):
+                    toAddPossibleMoves += ((6, 0),)
+            if isinstance(board[0][0], Rook) and board[0][0].isMoved == False:
+                if not isinstance(board[0][1], Piece) and \
+                    not isinstance(board[0][2], Piece) and \
+                    not isinstance(board[0][3], Piece):
+                    toAddPossibleMoves += ((2, 0),)
+        elif self.colour == "Black" and self.isMoved == False:
+            if isinstance(board[7][7], Rook) and board[7][7].isMoved == False:
+                if not isinstance(board[7][1], Piece) and \
+                    not isinstance(board[7][2], Piece) and \
+                    not isinstance(board[7][3], Piece):
+                    toAddPossibleMoves += ((2, 7),)
+            if isinstance(board[7][0], Rook) and board[7][0].isMoved == False:
+                if not isinstance(board[7][5], Piece) and  \
+                    not isinstance(board[7][6], Piece):
+                    toAddPossibleMoves += ((6, 7),)
+
         for move in toAddPossibleMoves:
             if move[0] in range(8) and move[1] in range(8):
-                self.possibleMoves += (move),
+                self.possibleMoves += ((move),)
+
+        #for castling
+
+        #for white kings
+
 
 class Pawn(Piece):
     def __init__(self, location, colour, squareColour):
@@ -345,7 +213,7 @@ class Pawn(Piece):
         self.name = "Pawn"
         self.location = location
         self.colour = colour
-        self.AllowDoubleMove = True
+        # self.isMoved = True
         self.possibleMove = False
         self.oppositeColour = 'Black' if colour == 'White' else 'White'
 
@@ -356,33 +224,53 @@ class Pawn(Piece):
             #if there is not piece in front of pawn
             if not isinstance(board[self.location[1] + 1][self.location[0]], Piece):
                 toAddPossibleMoves += (((self.location[0]), (self.location[1] + 1)),)
-                if self.AllowDoubleMove == True:
-                    self.AllowDoubleMove = False
+                if self.isMoved == False:
+                    # self.isMoved = True
                     #if not moved before
                     if not isinstance(board[self.location[1] + 2][self.location[0]], Piece):
                         toAddPossibleMoves += (((self.location[0]), (self.location[1] + 2)),)
-            #if there is a piece to take(right)
-            if isinstance(board[self.location[1] + 1][self.location[0] + 1], Piece):
-                toAddPossibleMoves += (((self.location[0] + 1), (self.location[1] + 1)),)
-            #if there is a piece to take(left)
-            if isinstance(board[self.location[1] + 1][self.location[0] - 1], Piece):
-                toAddPossibleMoves += (((self.location[0] - 1), (self.location[1] + 1)),)
+            try:
+                #if there is a piece to take(right)
+                if isinstance(board[self.location[1] + 1][self.location[0] + 1], Piece):
+                    toAddPossibleMoves += (((self.location[0] + 1), (self.location[1] + 1)),)
+            except IndexError:
+                pass
+                # print('checking outside of board parameters!')
+            try:
+                #if there is a piece to take(left)
+                if isinstance(board[self.location[1] + 1][self.location[0] - 1], Piece):
+                    toAddPossibleMoves += (((self.location[0] - 1), (self.location[1] + 1)),)
+            except IndexError:
+                pass
+                # print('checking outside of board parameters!')
+
         elif self.colour == "Black":
             if not isinstance(board[self.location[1] - 1][self.location[0]], Piece):
                 toAddPossibleMoves += (((self.location[0]), (self.location[1] - 1)),)
-                if self.AllowDoubleMove == True:
-                    self.AllowDoubleMove = False
+                if self.isMoved == False:
+                    # self.isMoved = True
                     #if not moved before
                     if not isinstance(board[self.location[1] - 2][self.location[0]], Piece):
                         toAddPossibleMoves += (((self.location[0]), (self.location[1] - 2)),)
-            #if there is a piece to take(left)
-            if isinstance(board[self.location[1] - 1][self.location[0] - 1], Piece):
-                toAddPossibleMoves += (((self.location[0] - 1), (self.location[1] - 1)),)
-            #if there is a piece to take(right)
-            if isinstance(board[self.location[1] - 1][self.location[0] + 1], Piece):
-                toAddPossibleMoves += (((self.location[0] + 1), (self.location[1] - 1)),)
+            try:
+                #if there is a piece to take(left)
+                if isinstance(board[self.location[1] - 1][self.location[0] - 1], Piece):
+                    toAddPossibleMoves += (((self.location[0] - 1), (self.location[1] - 1)),)
+            except IndexError:
+                pass
+                # print('checking outside of board parameters')
+            try:
+                #if there is a piece to take(right)
+                if isinstance(board[self.location[1] - 1][self.location[0] + 1], Piece):
+                    toAddPossibleMoves += (((self.location[0] + 1), (self.location[1] - 1)),)
+            except IndexError:
+                pass
+                # print('checking ouside of board parameters')
+
+        #en passant:
+
+
 
         for move in toAddPossibleMoves:
             if move[0] in range(8) and move[1] in range(8):
-                self.possibleMoves += (move),
-
+                self.possibleMoves += ((move),)
